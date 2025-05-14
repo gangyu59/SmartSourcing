@@ -291,3 +291,22 @@ main {
   color: #666;
   margin-top: 5px;
 }
+
+.btn-secondary {
+  background-color: #2c7be5;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.btn-secondary:hover {
+  background-color: #165ec9;
+}
+
+/* 页面底部统一返回按钮 */
+.return-home {
+  text-align: center;
+  margin: 40px auto;
+}

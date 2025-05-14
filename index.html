@@ -4,16 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>采购平台首页</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <header>
-    <div class="left"><a href="index.html">[Logo] 医药采购平台</a></div>
-    <div class="right">
+
+  <header class="navbar">
+    <div class="logo"><a href="index.html">[Logo] 医药采购平台</a></div>
+    <nav class="nav-links">
       <a href="upload.html">Excel导入</a>
       <a href="result.html">批量结果</a>
       <a href="detail.html">单品结果</a>
-    </div>
+    </nav>
   </header>
 
   <main>
@@ -21,77 +22,43 @@
       <input type="text" id="searchInput" placeholder="在此搜索药品名称、厂家、批准文号..." autocomplete="off" />
       <ul class="search-suggestions" id="suggestionList" style="display: none;"></ul>
     </div>
-    <div class="or-line">或</div>
-    <div>
+
+    <div style="text-align: center; margin: 10px 0; color: #888;">或</div>
+
+    <div style="text-align: center; margin-bottom: 30px;">
       <a href="upload.html" class="excel-upload">⬆️ Excel批量导入采购清单</a>
     </div>
 
     <div class="section">
       <h2>为您推荐（个性化内容）</h2>
       <div class="recommendations">
-        <div class="card">
-          <img />
+        <a href="detail.html" class="card" style="text-decoration: none; color: inherit;">
+          <div style="height: 100px; background: #f0f0f0; border-radius: 4px; margin-bottom: 8px;"></div>
           <p><strong>推荐药品A</strong></p>
           <p>价格：¥12.50</p>
           <p>供应商：某药厂</p>
-        </div>
-        <div class="card">
-          <img />
+        </a>
+        <a href="detail.html" class="card" style="text-decoration: none; color: inherit;">
+          <div style="height: 100px; background: #f0f0f0; border-radius: 4px; margin-bottom: 8px;"></div>
           <p><strong>推荐药品B</strong></p>
-          <p>价格：¥8.90</p>
-          <p>供应商：XX公司</p>
-        </div>
-        <div class="card">
-          <img />
-          <p><strong>促销活动1</strong></p>
-          <p>买一送一</p>
-        </div>
+          <p>价格：¥8.80</p>
+          <p>供应商：XX药企</p>
+        </a>
       </div>
     </div>
-		
-		<div class="section">
-		  <h2>常用功能</h2>
-		  <div class="shortcuts">
-		    <a class="shortcut" href="orders.html">订单管理</a>
-		    <a class="shortcut" href="history.html">历史采购</a>
-		    <a class="shortcut" href="suppliers.html">我的供应商</a>
-		    <a class="shortcut" href="reports.html">数据报表</a>
-		    <a class="shortcut" href="account.html">账户设置</a>
-		  </div>
-		</div>
+
+    <div class="section">
+      <h2>常用功能</h2>
+      <div class="shortcuts">
+        <a class="shortcut" href="orders.html">订单管理</a>
+        <a class="shortcut" href="history.html">历史采购</a>
+        <a class="shortcut" href="suppliers.html">我的供应商</a>
+        <a class="shortcut" href="reports.html">数据报表</a>
+        <a class="shortcut" href="account.html">账户设置</a>
+      </div>
+    </div>
   </main>
 
-  <script>
-    const searchInput = document.getElementById('searchInput');
-    const suggestionList = document.getElementById('suggestionList');
-    const suggestions = ['阿莫西林胶囊', '阿司匹林', '头孢克肟', '布洛芬', '复方感冒灵'];
-
-    searchInput.addEventListener('input', function () {
-      const value = this.value.trim();
-      suggestionList.innerHTML = '';
-      if (value) {
-        const matched = suggestions.filter(item => item.includes(value));
-        matched.forEach(item => {
-          const li = document.createElement('li');
-          li.textContent = item;
-          li.onclick = () => {
-            searchInput.value = item;
-            suggestionList.style.display = 'none';
-            window.location.href = 'detail.html';
-          };
-          suggestionList.appendChild(li);
-        });
-        suggestionList.style.display = matched.length ? 'block' : 'none';
-      } else {
-        suggestionList.style.display = 'none';
-      }
-    });
-
-    document.body.addEventListener('click', (e) => {
-      if (!searchInput.contains(e.target)) {
-        suggestionList.style.display = 'none';
-      }
-    });
-  </script>
+  <script src="js/common.js"></script>
 </body>
 </html>

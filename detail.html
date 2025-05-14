@@ -3,69 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <title>搜索结果：阿莫西林胶囊</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <header>
-    <div class="left"><a href="index.html">[Logo] 医药采购平台</a></div>
-    <div class="right">
+  <header class="navbar">
+    <div class="logo"><a href="index.html">[Logo] 医药采购平台</a></div>
+    <nav class="nav-links">
       <a href="upload.html">Excel导入</a>
       <a href="result.html">批量结果</a>
       <a href="detail.html">单品结果</a>
-    </div>
+    </nav>
   </header>
 
   <main>
     <h2>搜索结果：“阿莫西林胶囊”</h2>
 
-    <div class="section">
-      <h3>AI综合推荐</h3>
+    <div class="card">
+      <p><strong>阿莫西林胶囊 (0.25g*24粒) - A药厂</strong> <span class="tag-ai">AI推荐</span></p>
+      <p>价格：<strong>¥15.50</strong> ｜ 库存：<span style="color:green;">充足</span> ｜ 效期：2026-12 ｜ 明日达</p>
+      <p style="color:#666; font-size: 14px;">推荐理由：最低价格 + 充足库存 + 信誉评分：★★★★★</p>
+      <button class="btn">加入购物车</button>
+      <button class="btn">立即购买</button>
+    </div>
+
+    <div class="supplier-cards">
       <div class="card">
-        <p><strong>阿莫西林胶囊 (0.25g*24粒) - A药厂</strong> <span class="tag-ai">AI推荐</span></p>
-        <p>
-          价格：<strong>¥15.50</strong> ｜ 
-          库存：<span style="color:green;">充足</span> ｜ 
-          效期：2026-12 ｜ 
-          预计送达：明日达
-        </p>
-        <p class="ai-reason">推荐理由：最低价格 + 充足库存 + 效期长 + 供应商评分：★★★★★</p>
-        <div style="margin-top: 10px;">
-          <button class="btn">加入购物车</button>
-          <button class="btn">立即购买</button>
-        </div>
+        <p><strong>B药业</strong> ｜ ¥15.80 ｜ 库存：<span style="color:green;">充足</span> ｜ 效期：2027-03</p>
+        <p>供应商评分：★★★★</p>
+        <button class="btn">购买</button>
+      </div>
+      <div class="card">
+        <p><strong>C流通</strong> ｜ ¥16.00 ｜ 库存：<span style="color:orange;">少量</span> ｜ 效期：<span style="color:red;">2026-10（临期）</span></p>
+        <p>供应商评分：★★★（用户投诉较多）</p>
+        <button class="btn">购买</button>
       </div>
     </div>
 
-    <div class="section">
-      <h3>其他供应商</h3>
-      <div class="supplier-cards">
-        <div class="card">
-          <p><strong>B药业</strong></p>
-          <p>
-            价格：¥15.80 ｜ 
-            库存：<span style="color:green;">充足</span> ｜ 
-            效期：2027-03
-          </p>
-          <p>供应商评分：★★★★</p>
-          <button class="btn">购买</button>
-        </div>
-
-        <div class="card">
-          <p><strong>C流通</strong></p>
-          <p>
-            价格：¥16.00 ｜ 
-            库存：<span style="color:orange;">少量</span> ｜ 
-            效期：<span style="color:red;">2026-10（临期）</span>
-          </p>
-          <p>供应商评分：★★★（用户投诉较多）</p>
-          <button class="btn">购买</button>
-        </div>
-      </div>
-    </div>
-
-    <div style="text-align:center; margin-top:30px;">
-      <a href="index.html" class="btn">返回首页</a>
+    <div class="return-home">
+      <a href="index.html" class="btn-secondary">返回首页</a>
     </div>
   </main>
+  <script src="js/common.js"></script>
 </body>
 </html>

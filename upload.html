@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>批量导入采购清单</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="left"><a href="index.html">[Logo] 医药采购平台</a></div>
+    <div class="right">
+      <a href="upload.html">Excel导入</a>
+      <a href="result.html">批量结果</a>
+      <a href="detail.html">单品结果</a>
+    </div>
+  </header>
+
+  <main>
+    <h2>批量导入采购清单</h2>
+    <div class="section">
+      <div class="upload-box" id="dropArea">
+        <p><strong>拖拽Excel文件到此处</strong> 或点击选择</p>
+        <p class="file-info">支持格式：.xls, .xlsx</p>
+        <input type="file" id="fileInput" accept=".xls,.xlsx" />
+      </div>
+
+      <div style="text-align: center; margin-top: 20px;">
+        <button class="btn" id="uploadBtn">上传并解析</button>
+        <div id="loading" class="loading" style="display:none;">正在解析文件，请稍候...</div>
+      </div>
+
+      <p style="margin-top: 20px; text-align:center;">
+        <a href="#">下载采购清单模板</a> ｜ <a href="#">查看导入说明</a>
+      </p>
+    </div>
+  </main>
+
+  <script>
+    const dropArea = document.getElementById('dropArea');
+    const fileInput = document.getElementById('fileInput');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const loading = document.getElementById('loading');
+
+    // 拖拽样式
+    ['dragenter', 'dragover'].forEach(event => {
+      dropArea.addEventListener(event, e => {
+        e.preventDefault();
+        dropArea.classList.add('highlight');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(event => {
+      dropArea.addEventListener(event, e => {
+        e.preventDefault();
+        dropArea.classList.remove('highlight');
+      });
+    });
+
+    dropArea.addEventListener('drop', e => {
+      fileInput.files = e.dataTransfer.files;
+    });
+
+    dropArea.addEventListener('click', () => fileInput.click());
+
+    uploadBtn.addEventListener('click', () => {
+      const file = fileInput.files[0];
+      if (!file) {
+        alert("请先选择或拖入Excel文件");
+        return;
+      }
+
+      loading.style.display = 'block';
+      uploadBtn.disabled = true;
+
+      // 模拟处理过程
+      setTimeout(() => {
+        window.location.href = 'result.html';
+      }, 2000);
+    });
+  </script>
+</body>
+</html>

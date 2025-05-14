@@ -1,0 +1,16 @@
+/SmartSourcing
+├── index.html                  # 首页（搜索 + 推荐）
+├── upload.html                 # Excel批量导入页面
+├── result.html                 # 批量采购结果页
+├── detail.html                 # 单品搜索结果页
+
+├── orders.html                # 常用功能：订单管理页面
+├── template.html              # 下载采购模板说明页
+├── instructions.html          # 导入说明页面
+├── manual-search.html         # 手动查找供应商页面
+├── cart.html                  # 购物车页面
+├── confirm-order.html         # 下单确认页
+├── not-found.html             # 备用的404页面
+
+├── css
+│   └── style.css              # 全站统一样式

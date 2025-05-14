@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>采购清单优化结果</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="left"><a href="index.html">[Logo] 医药采购平台</a></div>
+    <div class="right">
+      <a href="upload.html">Excel导入</a>
+      <a href="result.html">批量结果</a>
+      <a href="detail.html">单品结果</a>
+    </div>
+  </header>
+
+  <main>
+    <h2>采购清单优化结果（共 250 SKU）</h2>
+
+    <div class="section">
+      <div class="card">
+        <p><strong>预计总金额：</strong> ¥99,999.99</p>
+        <p><strong>涉及供应商：</strong> 5家 ｜ <strong>平均到货时间：</strong> 3天</p>
+        <div class="progress-bar"><div class="progress-fill" style="width: 80%"></div></div>
+        <p class="progress-text">已优化 200 / 250 SKU</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <!-- SKU 项目 -->
+      <div class="sku-card">
+        <div class="sku-header">
+          <span><strong>阿莫西林胶囊 (0.25g*24粒)</strong></span>
+          <span>数量：100</span>
+          <span class="tag-ai">AI推荐</span>
+        </div>
+        <div class="sku-info">
+          <p>供应商：<strong>A药厂</strong> ｜ ¥15.50 ｜ 库存：<span>充足</span> ｜ 效期：2026-12</p>
+          <button class="btn toggle-btn" onclick="toggleSuppliers(this)">换供应商</button>
+        </div>
+        <div class="alt-suppliers" style="display:none;">
+          <p>可选供应商：</p>
+          <ul>
+            <li>B药业 ｜ ¥15.80 ｜ 效期：2027-03 ｜ 库存：充足</li>
+            <li>C流通 ｜ ¥16.00 ｜ <span style="color:orange;">库存：少量</span> ｜ <span style="color:red;">效期：2026-10（临期）</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sku-card warning-card">
+        <div class="sku-header">
+          <span><strong>某某注射液（规格X）</strong></span>
+          <span>数量：20</span>
+          <span class="warning">⚠ 无合适供应商</span>
+        </div>
+        <div class="sku-info">
+          <button class="btn">手动寻找</button>
+          <button class="btn">忽略</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" style="text-align:center; margin-top: 20px;">
+      <input type="checkbox" /> 全选
+      <button class="btn">加入购物车</button>
+      <button class="btn">生成采购订单</button>
+    </div>
+
+    <div style="text-align:center; margin-top:30px;">
+      <a href="index.html" class="btn">返回首页</a>
+    </div>
+  </main>
+
+  <script>
+    function toggleSuppliers(button) {
+      const container = button.closest('.sku-card');
+      const altBox = container.querySelector('.alt-suppliers');
+      const isVisible = altBox.style.display === 'block';
+      altBox.style.display = isVisible ? 'none' : 'block';
+      button.textContent = isVisible ? '换供应商' : '收起供应商';
+    }
+  </script>
+</body>
+</html>

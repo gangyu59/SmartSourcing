@@ -8,45 +8,93 @@
 </head>
 <body>
 
+  <!-- ===== 顶部导航 ===== -->
   <header class="navbar">
-    <div class="logo"><a href="index.html">[Logo] 医药采购平台</a></div>
+    <div class="logo"><a href="index.html">1药城智能采购平台</a></div>
     <nav class="nav-links">
       <a href="upload.html">Excel导入</a>
       <a href="result.html">批量结果</a>
-      <a href="detail.html">单品结果</a>
+      <!-- 单品比价入口已取消 -->
     </nav>
   </header>
 
+  <!-- ===== 主内容 ===== -->
   <main>
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="在此搜索药品名称、厂家、批准文号..." autocomplete="off" />
-      <ul class="search-suggestions" id="suggestionList" style="display: none;"></ul>
+
+    <!-- 新增采购计划按钮 -->
+    <div style="text-align:center; margin:20px 0;">
+      <button class="btn" id="createPlanBtn">＋ 新增采购计划</button>
     </div>
 
-    <div style="text-align: center; margin: 10px 0; color: #888;">或</div>
+    <!-- 搜索框 -->
+    <div class="search-box">
+      <input type="text" id="searchInput"
+             placeholder="在此搜索药品名称、厂家、批准文号..."
+             autocomplete="off"/>
+      <ul class="search-suggestions" id="suggestionList" style="display:none;"></ul>
+    </div>
 
-    <div style="text-align: center; margin-bottom: 30px;">
+    <div style="text-align:center; margin:10px 0; color:#888;">或</div>
+
+    <!-- Excel 上传快捷入口 -->
+    <div style="text-align:center; margin-bottom:30px;">
       <a href="upload.html" class="excel-upload">⬆️ Excel批量导入采购清单</a>
     </div>
 
+    <!-- ── 采购计划查询 ── -->
+    <div class="section" id="planSearch">
+      <h2>采购计划查询</h2>
+      <div class="card">
+        <label>创建时间：
+          <input type="date" id="sDate">
+        </label>
+        <label style="margin-left:12px;">创建人：
+          <input type="text" id="sCreator" placeholder="张三">
+        </label>
+        <label style="margin-left:12px;">询价状态：
+          <select id="sStatus">
+            <option value="">全部</option>
+            <option>待询价</option>
+            <option>询价中</option>
+            <option>已完成</option>
+          </select>
+        </label>
+        <button class="btn" id="planSearchBtn" style="margin-left:12px;">查询</button>
+      </div>
+
+      <!-- 结果表 -->
+      <div class="card" id="planTable" style="display:none;">
+        <table border="1" cellpadding="6" width="100%">
+          <thead>
+            <tr>
+              <th>ID</th><th>创建日期</th><th>创建人</th><th>SKU数</th><th>询价状态</th>
+            </tr>
+          </thead>
+          <tbody id="planTbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 推荐供应商 -->
     <div class="section">
-      <h2>为您推荐（个性化内容）</h2>
+      <h2>推荐供应商（可快速邀请报价）</h2>
       <div class="recommendations">
-        <a href="detail.html" class="card" style="text-decoration: none; color: inherit;">
-          <div style="height: 100px; background: #f0f0f0; border-radius: 4px; margin-bottom: 8px;"></div>
-          <p><strong>推荐药品A</strong></p>
-          <p>价格：¥12.50</p>
-          <p>供应商：某药厂</p>
+        <a href="suppliers.html" class="card" style="text-decoration:none;color:inherit;">
+          <div style="height:100px;background:#f0f0f0;border-radius:4px;margin-bottom:8px;
+                      display:flex;align-items:center;justify-content:center;font-size:48px;">🏬</div>
+          <p><strong>华南药业</strong></p>
+          <p>可报品种：120 个｜评级：★★★★★</p>
         </a>
-        <a href="detail.html" class="card" style="text-decoration: none; color: inherit;">
-          <div style="height: 100px; background: #f0f0f0; border-radius: 4px; margin-bottom: 8px;"></div>
-          <p><strong>推荐药品B</strong></p>
-          <p>价格：¥8.80</p>
-          <p>供应商：XX药企</p>
+        <a href="suppliers.html" class="card" style="text-decoration:none;color:inherit;">
+          <div style="height:100px;background:#f0f0f0;border-radius:4px;margin-bottom:8px;
+                      display:flex;align-items:center;justify-content:center;font-size:48px;">🏬</div>
+          <p><strong>上药集团</strong></p>
+          <p>可报品种：95 个｜评级：★★★★☆</p>
         </a>
       </div>
     </div>
 
+    <!-- 常用功能 -->
     <div class="section">
       <h2>常用功能</h2>
       <div class="shortcuts">
@@ -57,8 +105,58 @@
         <a class="shortcut" href="account.html">账户设置</a>
       </div>
     </div>
+
   </main>
 
+  <!-- ===== 创建计划弹窗 ===== -->
+  <div class="popup" id="planPopup" style="display:none;">
+    <div class="card" style="max-width:320px; margin:auto;">
+      <h3 style="margin-top:0;">创建采购计划</h3>
+      <button class="btn" onclick="location.href='upload.html'">Excel 模板导入</button>
+      <button class="btn" onclick="location.href='manual-entry.html'">手动录入</button>
+      <button class="btn" onclick="location.href='history.html'">复制历史计划</button>
+      <button class="btn-secondary" onclick="closePopup()">取消</button>
+    </div>
+  </div>
+
+  <!-- ===== 公共脚本 ===== -->
   <script src="js/common.js"></script>
+
+  <!-- 本页专用脚本：计划查询 + 弹窗 -->
+  <script>
+    /* ── 假数据（可用 Ajax 替换） ── */
+    const mockPlans = [
+      {id:'PLN2025-001', date:'2025-05-16', creator:'张三', sku:120, status:'已完成'},
+      {id:'PLN2025-002', date:'2025-05-17', creator:'李四', sku:80,  status:'询价中'},
+      {id:'PLN2025-003', date:'2025-05-18', creator:'张三', sku:50,  status:'待询价'},
+    ];
+    /* 查询按钮逻辑 */
+    document.getElementById('planSearchBtn').onclick = () => {
+      const d = document.getElementById('sDate').value;
+      const c = document.getElementById('sCreator').value.trim();
+      const s = document.getElementById('sStatus').value;
+      const result = mockPlans.filter(p =>
+        (!d || p.date === d) &&
+        (!c || p.creator.includes(c)) &&
+        (!s || p.status === s)
+      );
+      const tbody = document.getElementById('planTbody');
+      tbody.innerHTML = result.map(p => `
+        <tr>
+          <td><a href="quotes.html?plan=${p.id}">${p.id}</a></td>
+          <td>${p.date}</td><td>${p.creator}</td><td>${p.sku}</td><td>${p.status}</td>
+        </tr>`).join('');
+      document.getElementById('planTable').style.display = 'block';
+    };
+
+    /* 弹窗开关 */
+    document.getElementById('createPlanBtn').onclick = () =>
+      document.getElementById('planPopup').style.display = 'flex';
+
+    function closePopup(){ document.getElementById('planPopup').style.display = 'none'; }
+    document.getElementById('planPopup').onclick = e=>{
+      if(e.target.id === 'planPopup') closePopup();
+    };
+  </script>
 </body>
 </html>

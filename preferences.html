@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>用户偏好设置</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo"><a href="index.html">医药采购平台</a></div>
+    <nav class="nav-links">
+      <a href="upload.html">Excel导入</a>
+      <a href="result.html">批量结果</a>
+      <a href="detail.html">单品结果</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>用户偏好配置</h2>
+    <div class="card">
+      <form>
+        <label>采购决策优先：
+          <select>
+            <option selected>价格优先</option>
+            <option>交期优先</option>
+          </select>
+        </label><br><br>
+        <label>最大供应商比价数：
+          <input type="number" value="3" />
+        </label><br><br>
+        <label>字段匹配是否自动保存：
+          <input type="checkbox" checked />
+        </label><br><br>
+        <button class="btn">保存设置</button>
+      </form>
+    </div>
+    <div class="return-home"><a href="index.html" class="btn-secondary">返回首页</a></div>
+  </main>
+
+  <script src="js/common.js"></script>
+</body>
+</html>

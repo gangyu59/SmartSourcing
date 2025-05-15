@@ -6,10 +6,11 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <!-- 顶部导航 -->
   <header class="navbar">
     <div class="logo"><a href="index.html">[Logo] 医药采购平台</a></div>
     <nav class="nav-links">
-      <a href="upload.html">Excel导入</a>
+      <a href="upload.html" class="active">Excel导入</a>
       <a href="result.html">批量结果</a>
       <a href="detail.html">单品结果</a>
     </nav>
@@ -18,50 +19,80 @@
   <main>
     <h2>批量导入采购清单</h2>
 
-    <div class="card" style="text-align: center;">
-      <div style="border: 2px dashed #ccc; padding: 30px; border-radius: 8px; cursor: pointer;" id="dropArea">
-        <p><strong>拖拽Excel文件到此处</strong> 或点击选择</p>
-        <p style="color: #888;">支持格式：.xls, .xlsx</p>
-        <input type="file" id="fileInput" accept=".xls,.xlsx" style="display:none;" />
+    <!-- 上传卡片 -->
+    <div class="card" style="text-align:center;">
+      <!-- 拖拽/点击区域 -->
+      <div id="dropArea"
+           style="border:2px dashed #ccc; padding:30px; border-radius:8px; cursor:pointer;">
+        <p><strong>拖拽 Excel 文件到此处</strong> 或点击选择</p>
+        <p style="color:#888;">支持格式：.xls, .xlsx</p>
+        <input type="file" id="fileInput" accept=".xls,.xlsx" style="display:none;">
       </div>
 
+      <!-- 解析进度 -->
+      <div id="progressBox" style="display:none; margin-top:18px;">
+        <p id="progressText">正在解析… 0%</p>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill" style="width:0%;"></div>
+        </div>
+      </div>
+
+      <!-- 上传按钮 -->
       <button class="btn" id="uploadBtn">上传并解析</button>
-      <p style="margin-top: 10px;"><a href="template.html">下载采购清单模板</a> ｜ <a href="instructions.html">查看导入说明</a></p>
+
+      <p style="margin-top:10px;">
+        <a href="template.html">下载采购清单模板</a> ｜ 
+        <a href="instructions.html">查看导入说明</a>
+      </p>
     </div>
 
+    <!-- 返回首页 -->
     <div class="return-home">
       <a href="index.html" class="btn-secondary">返回首页</a>
     </div>
   </main>
 
+  <!-- 公共脚本 -->
   <script src="js/common.js"></script>
   <script>
-    const dropArea = document.getElementById('dropArea');
+    // 元素
+    const dropArea  = document.getElementById('dropArea');
     const fileInput = document.getElementById('fileInput');
     const uploadBtn = document.getElementById('uploadBtn');
+    const progBox   = document.getElementById('progressBox');
+    const progFill  = document.getElementById('progressFill');
+    const progText  = document.getElementById('progressText');
 
-    dropArea.addEventListener('click', () => fileInput.click());
-    dropArea.addEventListener('dragover', e => {
-      e.preventDefault();
-      dropArea.style.background = '#f0f8ff';
+    // 拖拽交互
+    ['dragover','dragenter'].forEach(evt=>{
+      dropArea.addEventListener(evt,e=>{e.preventDefault(); dropArea.style.background='#f0f8ff';});
     });
-    dropArea.addEventListener('dragleave', e => {
-      e.preventDefault();
-      dropArea.style.background = '';
+    ['dragleave','drop'].forEach(evt=>{
+      dropArea.addEventListener(evt,e=>{e.preventDefault(); dropArea.style.background='';});
     });
-    dropArea.addEventListener('drop', e => {
-      e.preventDefault();
-      dropArea.style.background = '';
-      fileInput.files = e.dataTransfer.files;
-    });
+    dropArea.addEventListener('drop',e=>{ fileInput.files=e.dataTransfer.files; });
 
-    uploadBtn.addEventListener('click', () => {
-      if (!fileInput.files.length) {
-        alert("请先选择文件");
-        return;
-      }
-      uploadBtn.textContent = "正在解析...";
-      setTimeout(() => window.location.href = "result.html", 2000);
+    // 点击触发文件选择
+    dropArea.addEventListener('click',()=>fileInput.click());
+
+    // 上传并模拟解析进度
+    uploadBtn.addEventListener('click',()=>{
+      if(!fileInput.files.length){ alert('请先选择文件'); return; }
+
+      uploadBtn.disabled=true;
+      progBox.style.display='block';
+
+      let percent=0;
+      const timer=setInterval(()=>{
+        percent+=10;
+        progFill.style.width=percent+'%';
+        progText.textContent='正在解析… '+percent+'%';
+        if(percent>=100){
+          clearInterval(timer);
+          // 解析完成跳转字段确认页
+          window.location.href='field-confirm.html';
+        }
+      },200); // 模拟 2 秒完成
     });
   </script>
 </body>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>供应商报价整合</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo"><a href="index.html">医药采购平台</a></div>
+    <nav class="nav-links">
+      <a href="upload.html">Excel导入</a>
+      <a href="result.html">批量结果</a>
+      <a href="detail.html">单品结果</a>
+    </nav>
+  </header>
+
+  <main>
+<!-- 报价进度卡片 -->
+<div class="card" id="quoteProgress">
+  <p>报价进度：<strong id="quoteNum">2</strong> / <strong id="supplierTotal">5</strong> 家供应商已报价</p>
+  <div class="progress-bar"><div class="progress-fill" id="quoteBar" style="width:40%"></div></div>
+  <p style="font-size:14px;color:#666;">剩余 3 家供应商待报价…</p>
+</div>
+
+    <h2>供应商报价整合</h2>
+    <div class="card">
+      <table border="1" cellpadding="6">
+        <tr><th>商品</th><th>供应商</th><th>报价</th><th>交期</th><th>建议采购</th></tr>
+        <tr>
+          <td>阿莫西林</td>
+          <td>A药厂</td>
+          <td>¥15.2</td>
+          <td>2天</td>
+          <td><input type="checkbox" checked></td>
+        </tr>
+        <tr>
+          <td>阿莫西林</td>
+          <td>B药厂</td>
+          <td>¥15.8</td>
+          <td>3天</td>
+          <td><input type="checkbox"></td>
+        </tr>
+      </table>
+      <br>
+      <button class="btn">自动分配采购量</button>
+      <button class="btn">导出比价结果</button>
+    </div>
+    <div class="return-home"><a href="index.html" class="btn-secondary">返回首页</a></div>
+  </main>
+
+  <script src="js/common.js"></script>
+	
+	<script>
+// 假设总 5 家，已 2 家
+const done = 2, total = 5;
+document.getElementById('quoteNum').textContent = done;
+document.getElementById('supplierTotal').textContent = total;
+document.getElementById('quoteBar').style.width = (done/total*100)+'%';
+</script>
+</body>
+</html>

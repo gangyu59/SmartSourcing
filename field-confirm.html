@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>字段匹配确认</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo"><a href="index.html">医药采购平台</a></div>
+    <nav class="nav-links">
+      <a href="upload.html">Excel导入</a>
+      <a href="result.html">批量结果</a>
+      <a href="detail.html">单品结果</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>字段确认与映射</h2>
+    <div class="card">
+      <p>系统检测到以下字段，请确认对应关系：</p>
+      <table border="1" cellpadding="8">
+        <tr><th>用户字段</th><th>系统字段</th><th>是否确认</th></tr>
+        <tr>
+          <td>药品名称</td>
+          <td>
+            <select>
+              <option selected>商品名称</option>
+              <option>规格</option>
+              <option>数量</option>
+            </select>
+          </td>
+          <td>✓</td>
+        </tr>
+        <tr>
+          <td>厂家</td>
+          <td>
+            <select>
+              <option selected>生产厂家</option>
+              <option>备注</option>
+            </select>
+          </td>
+          <td>✓</td>
+        </tr>
+      </table>
+      <br>
+      <button class="btn">确认并继续</button>
+    </div>
+    <div class="return-home"><a href="index.html" class="btn-secondary">返回首页</a></div>
+  </main>
+
+  <script src="js/common.js"></script>
+</body>
+</html>

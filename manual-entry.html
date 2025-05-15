@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>手动录入采购计划</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo"><a href="index.html">医药采购平台</a></div>
+    <nav class="nav-links">
+      <a href="upload.html">Excel导入</a>
+      <a href="result.html">批量结果</a>
+      <a href="detail.html">单品结果</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>手动新建采购计划</h2>
+    <div class="card">
+      <form>
+        <label>商品名称：<input type="text" /></label><br><br>
+        <label>规格：<input type="text" /></label><br><br>
+        <label>数量：<input type="number" /></label><br><br>
+        <label>期望交期：<input type="date" /></label><br><br>
+        <label>备注：<textarea></textarea></label><br><br>
+        <button class="btn">保存并添加下一项</button>
+        <button class="btn-secondary">完成录入</button>
+      </form>
+    </div>
+    <div class="return-home"><a href="index.html" class="btn-secondary">返回首页</a></div>
+  </main>
+
+  <script src="js/common.js"></script>
+</body>
+</html>

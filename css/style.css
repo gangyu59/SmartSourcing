@@ -186,3 +186,20 @@ main {
   background: #2c7be5;
   border-radius: 6px;
 }
+
+/* ───────── 计划创建弹窗 ───────── */
+.popup{
+  position: fixed;
+  inset: 0;                     /* 等同于 top:0; right:0; bottom:0; left:0 */
+  background: rgba(0,0,0,.35);  /* 半透明遮罩 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+/* 让弹窗里按钮满宽度看起来更整齐（可选） */
+.popup .btn,
+.popup .btn-secondary{
+  width: 100%;
+  box-sizing: border-box;
+}

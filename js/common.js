@@ -1,44 +1,37 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // 高亮当前导航
-  const navLinks = document.querySelectorAll('header .nav-links a');
+
+  /* ── 导航高亮 ── */
   const current = location.pathname.split('/').pop();
-  navLinks.forEach(link => {
-    if (link.getAttribute('href') === current) {
-      link.classList.add('active');
-    }
+  document.querySelectorAll('header .nav-links a').forEach(a=>{
+    if(a.getAttribute('href')===current) a.classList.add('active');
   });
 
-  // 搜索建议功能
-  const searchInput = document.getElementById('searchInput');
+  /* ── 搜索建议 ── */
+  const searchInput    = document.getElementById('searchInput');
   const suggestionList = document.getElementById('suggestionList');
-  const suggestions = ['阿莫西林胶囊', '阿司匹林', '布洛芬', '感冒灵', '头孢克肟'];
+  const dataMock = ['阿莫西林胶囊','阿司匹林','布洛芬','头孢克肟'];
 
-  if (searchInput) {
-    searchInput.addEventListener('input', function () {
-      const value = this.value.trim();
-      suggestionList.innerHTML = '';
-      if (value) {
-        const matched = suggestions.filter(item => item.includes(value));
-        matched.forEach(item => {
-          const li = document.createElement('li');
-          li.textContent = item;
-          li.onclick = () => {
-            searchInput.value = item;
-            suggestionList.style.display = 'none';
-            window.location.href = 'detail.html'; // 可改为带参数跳转
-          };
-          suggestionList.appendChild(li);
-        });
-        suggestionList.style.display = matched.length ? 'block' : 'none';
-      } else {
-        suggestionList.style.display = 'none';
-      }
+  if(searchInput){
+    searchInput.addEventListener('input',()=> {
+      const kw = searchInput.value.trim();
+      suggestionList.innerHTML='';
+      if(!kw){ suggestionList.style.display='none'; return; }
+
+      dataMock.filter(x=>x.includes(kw)).forEach(item=>{
+        const li = document.createElement('li');
+        li.textContent = item;
+        li.onclick = ()=> {
+          suggestionList.style.display='none';
+          alert('批量报价场景请先创建采购计划并等待供应商报价，无法直接查看单品价格。');
+        };
+        suggestionList.appendChild(li);
+      });
+      suggestionList.style.display = suggestionList.children.length?'block':'none';
     });
 
-    document.body.addEventListener('click', (e) => {
-      if (!searchInput.contains(e.target)) {
-        suggestionList.style.display = 'none';
-      }
+    document.body.addEventListener('click',e=>{
+      if(!searchInput.contains(e.target)) suggestionList.style.display='none';
     });
   }
+
 });

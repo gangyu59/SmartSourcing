@@ -39,8 +39,8 @@
 
     <div style="text-align:center; margin: 20px 0;">
       <input type="checkbox" /> 全选
-      <button class="btn">加入购物车</button>
-      <button class="btn">生成订单</button>
+      <button class="btn-addcart">加入购物车</button>
+      <button class="btn-createorder">生成订单</button>
     </div>
 
     <div class="return-home">
@@ -48,5 +48,18 @@
     </div>
   </main>
   <script src="js/common.js"></script>
+	
+	<!-- 绑定按钮事件：加入购物车 & 生成订单 -->
+<script>
+document.querySelector('.btn-addcart')?.addEventListener('click',() =>{
+  alert('已将选中 SKU 加入购物车！（示例逻辑）');
+  /* 实际项目：POST /api/cart 之后再跳 cart.html */
+});
+document.querySelector('.btn-createorder')?.addEventListener('click',() =>{
+  alert('已生成草稿订单！（示例逻辑）');
+  /* 实际项目：POST /api/orders 之后再跳 confirm-order.html */
+});
+</script>
+
 </body>
 </html>

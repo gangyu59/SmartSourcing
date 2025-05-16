@@ -11,7 +11,7 @@
     <nav class="nav-links">
       <a href="upload.html">Excel导入</a>
       <a href="result.html">批量结果</a>
-      <a href="detail.html">单品结果</a>
+      <a href="detail.html" class="opt-single">单品结果</a>
     </nav>
   </header>
 
@@ -25,6 +25,11 @@
             <option>交期优先</option>
           </select>
         </label><br><br>
+				<!-- 偏好设置表单里插入： -->
+				<label style="display:block; margin-top:12px;">
+				  <input type="checkbox" id="toggleSingle" />
+				  显示单品搜索功能
+				</label><br><br>
         <label>最大供应商比价数：
           <input type="number" value="3" />
         </label><br><br>
@@ -36,7 +41,20 @@
     </div>
     <div class="return-home"><a href="index.html" class="btn-secondary">返回首页</a></div>
   </main>
+	<script>
+/* 读取本地偏好 */
+document.addEventListener('DOMContentLoaded', () => {
+  const chk = document.getElementById('toggleSingle');
+  chk.checked = localStorage.getItem('showSingle') === '1';
+
+  chk.onchange = () => {
+    localStorage.setItem('showSingle', chk.checked ? '1' : '0');
+    alert('设置已保存');
+  };
+});
+</script>
 
   <script src="js/common.js"></script>
+	
 </body>
 </html>

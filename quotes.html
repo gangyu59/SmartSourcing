@@ -6,57 +6,163 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <!-- ===== 顶部导航 ===== -->
   <header class="navbar">
     <div class="logo"><a href="index.html">医药采购平台</a></div>
     <nav class="nav-links">
       <a href="upload.html">Excel导入</a>
       <a href="result.html">批量结果</a>
-      <a href="detail.html">单品结果</a>
+      <a href="detail.html" class="opt-single">单品结果</a>
     </nav>
   </header>
 
   <main>
-<!-- 报价进度卡片 -->
-<div class="card" id="quoteProgress">
-  <p>报价进度：<strong id="quoteNum">2</strong> / <strong id="supplierTotal">5</strong> 家供应商已报价</p>
-  <div class="progress-bar"><div class="progress-fill" id="quoteBar" style="width:40%"></div></div>
-  <p style="font-size:14px;color:#666;">剩余 3 家供应商待报价…</p>
-</div>
+    <!-- 报价进度卡片 -->
+    <div class="card" id="quoteProgress">
+      <p>报价进度：<strong id="quoteNum">2</strong>/<strong id="supplierTotal">5</strong> 家供应商已报价</p>
+      <div class="progress-bar"><div class="progress-fill" id="quoteBar" style="width:40%"></div></div>
+      <p style="font-size:14px;color:#666;">剩余 3 家供应商待报价…</p>
+    </div>
 
+    <!-- 过滤器条 -->
+    <div class="card" id="filterBar">
+      <label>效期 ≥ <input type="month" id="fExp"></label>
+      <label style="margin-left:12px;">交期 ≤ <input type="number" id="fLead" style="width:60px;"> 天</label>
+      <label style="margin-left:12px;">星级 ≥
+        <select id="fRate">
+          <option value="">全部</option><option>3</option><option>4</option><option>5</option>
+        </select>
+      </label>
+      <button class="btn" id="filterBtn" style="margin-left:12px;">筛选</button>
+    </div>
+
+    <!-- 报价整合表 -->
     <h2>供应商报价整合</h2>
     <div class="card">
-      <table border="1" cellpadding="6">
-        <tr><th>商品</th><th>供应商</th><th>报价</th><th>交期</th><th>建议采购</th></tr>
-        <tr>
-          <td>阿莫西林</td>
-          <td>A药厂</td>
-          <td>¥15.2</td>
-          <td>2天</td>
-          <td><input type="checkbox" checked></td>
-        </tr>
-        <tr>
-          <td>阿莫西林</td>
-          <td>B药厂</td>
-          <td>¥15.8</td>
-          <td>3天</td>
-          <td><input type="checkbox"></td>
-        </tr>
+      <table id="quoteTable" border="1" cellpadding="6" width="100%">
+        <thead>
+          <tr>
+            <th>商品</th><th>供应商</th><th>报价</th><th>交期</th>
+            <th>建议采购</th><th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-exp="2026-12" data-lead="2" data-rate="5">
+            <td>阿莫西林</td>
+            <td>A药厂</td>
+            <td>¥15.2</td>
+            <td>2天</td>
+            <td><input type="checkbox" class="chk-suggest" data-price="15.2"></td>
+            <td>
+              <button class="btn-secondary btn-chat"  data-sup="A药厂">💬</button>
+              <button class="btn-secondary btn-inform" data-sup="A药厂">📨</button>
+            </td>
+          </tr>
+          <tr data-exp="2027-01" data-lead="3" data-rate="4">
+            <td>阿莫西林</td>
+            <td>B药厂</td>
+            <td>¥15.8</td>
+            <td>3天</td>
+            <td><input type="checkbox" class="chk-suggest" data-price="15.8"></td>
+            <td>
+              <button class="btn-secondary btn-chat"  data-sup="B药厂">💬</button>
+              <button class="btn-secondary btn-inform" data-sup="B药厂">📨</button>
+            </td>
+          </tr>
+        </tbody>
       </table>
       <br>
-      <button class="btn">自动分配采购量</button>
-      <button class="btn">导出比价结果</button>
+      <button class="btn" id="autoAssignBtn">自动分配采购量</button>
+      <button class="btn" id="exportBtn">导出比价结果</button>
     </div>
+
     <div class="return-home"><a href="index.html" class="btn-secondary">返回首页</a></div>
   </main>
 
+  <!-- ===== 通用聊天弹窗 ===== -->
+  <div id="chatPopup" class="popup" style="display:none;">
+    <div class="card" style="width:320px;max-height:70vh;display:flex;flex-direction:column;">
+      <h3 id="chatTitle" style="margin-top:0;">与供应商沟通</h3>
+      <div id="chatBody" style="flex:1;overflow-y:auto;border:1px solid #eee;padding:6px;margin-bottom:8px;"></div>
+      <textarea id="chatInput" rows="2" placeholder="输入消息…" style="resize:none;"></textarea>
+      <button class="btn" onclick="sendMsg()">发送</button>
+      <button class="btn-secondary" onclick="chatClose()">关闭</button>
+    </div>
+  </div>
+
   <script src="js/common.js"></script>
-	
-	<script>
-// 假设总 5 家，已 2 家
-const done = 2, total = 5;
-document.getElementById('quoteNum').textContent = done;
-document.getElementById('supplierTotal').textContent = total;
-document.getElementById('quoteBar').style.width = (done/total*100)+'%';
-</script>
+
+  <!-- ===== 页面专用脚本 ===== -->
+  <script>
+  /* 1. 进度条示例 */
+  const done=2,total=5;
+  document.getElementById('quoteNum').textContent=done;
+  document.getElementById('supplierTotal').textContent=total;
+  document.getElementById('quoteBar').style.width=(done/total*100)+'%';
+
+  /* 2. 过滤器 */
+  document.getElementById('filterBtn').onclick=()=>{
+    const exp  = document.getElementById('fExp').value;
+    const lead = document.getElementById('fLead').value;
+    const rate = document.getElementById('fRate').value;
+    document.querySelectorAll('#quoteTable tbody tr').forEach(tr=>{
+      const ok = (!exp  || tr.dataset.exp  >= exp) &&
+                 (!lead || Number(tr.dataset.lead) <= lead) &&
+                 (!rate || Number(tr.dataset.rate) >= rate);
+      tr.style.display = ok ? '' : 'none';
+    });
+  };
+
+  /* 3. 自动分配采购量（示例：仅勾选最低价） */
+  document.getElementById('autoAssignBtn').onclick=()=>{
+    let min=Infinity, minRow=null;
+    document.querySelectorAll('.chk-suggest').forEach(chk=>{
+      const price = Number(chk.dataset.price);
+      if(price<min){min=price; minRow=chk;}
+    });
+    document.querySelectorAll('.chk-suggest').forEach(chk=>chk.checked=false);
+    if(minRow) minRow.checked=true;
+    alert('已按最低报价自动勾选建议采购！');
+    /* TODO: 更复杂的分配逻辑、与后端交互后刷新页面 */
+  };
+
+  /* 4. 导出 CSV */
+  document.getElementById('exportBtn').onclick=()=>{
+    let csv='商品,供应商,报价,交期\\n';
+    document.querySelectorAll('#quoteTable tbody tr').forEach(tr=>{
+      if(tr.style.display==='none') return;
+      const cells=[...tr.children].slice(0,4).map(td=>td.textContent.trim());
+      csv += cells.join(',') + '\\n';
+    });
+    const blob=new Blob([csv],{type:'text/csv'});
+    const url = URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url; a.download='quotes.csv'; a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  /* 5. 聊天 & 通知按钮逻辑（可提到 common.js） */
+  document.addEventListener('click',e=>{
+    if(e.target.classList.contains('btn-chat')){
+      const sup=e.target.dataset.sup;
+      document.getElementById('chatTitle').textContent=`与 ${sup} 沟通`;
+      document.getElementById('chatBody').innerHTML='';
+      document.getElementById('chatPopup').style.display='flex';
+    }
+    if(e.target.classList.contains('btn-inform')){
+      alert(`已向 ${e.target.dataset.sup} 发送报价需求！（示例）`);
+    }
+  });
+  function chatClose(){document.getElementById('chatPopup').style.display='none';}
+  function sendMsg(){
+    const ta=document.getElementById('chatInput');
+    const msg=ta.value.trim();
+    if(!msg)return;
+    const body=document.getElementById('chatBody');
+    body.innerHTML += `<div style="text-align:right;color:#2c7be5;">${msg}</div>`;
+    body.scrollTop=body.scrollHeight;
+    ta.value='';
+  }
+  </script>
 </body>
 </html>

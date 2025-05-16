@@ -6,60 +6,92 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <!-- ===== 顶部导航 ===== -->
   <header class="navbar">
     <div class="logo"><a href="index.html">[Logo] 医药采购平台</a></div>
     <nav class="nav-links">
       <a href="upload.html">Excel导入</a>
       <a href="result.html">批量结果</a>
-      <a href="detail.html">单品结果</a>
+      <a href="detail.html" class="opt-single">单品结果</a>
     </nav>
   </header>
 
+  <!-- ===== 主内容 ===== -->
   <main>
     <h2>采购清单优化结果（共 250 SKU）</h2>
 
+    <!-- 概览卡 -->
     <div class="card">
       <p><strong>预计总金额：</strong> ¥99,999.99</p>
       <p><strong>涉及供应商：</strong> 5家 ｜ <strong>平均到货时间：</strong> 3天</p>
-      <div class="progress-bar"><div class="progress-fill" style="width: 80%"></div></div>
-      <p style="text-align: right;">已优化 200 / 250 SKU</p>
+      <div class="progress-bar"><div class="progress-fill" style="width:80%"></div></div>
+      <p style="text-align:right;">已优化 200 / 250 SKU</p>
     </div>
 
-    <div class="card">
+    <!-- 过滤器条 -->
+    <div class="card" id="filterBar">
+      <label>效期 ≥ <input type="month" id="fExp"></label>
+      <label style="margin-left:16px;">交期 ≤ <input type="number" id="fLead" style="width:60px;"> 天</label>
+      <label style="margin-left:16px;">星级 ≥
+        <select id="fRate">
+          <option value="">全部</option><option>3</option><option>4</option><option>5</option>
+        </select>
+      </label>
+      <button class="btn" id="filterBtn" style="margin-left:16px;">筛选</button>
+    </div>
+
+    <!-- SKU 列表（示例 2 条，真实环境循环生成） -->
+    <div class="sku-card card" data-exp="2026-12" data-lead="2" data-rate="5">
       <p><strong>阿莫西林胶囊 (0.25g*24粒)</strong> ｜ 数量：100 <span class="tag-ai">AI推荐</span></p>
-      <p>供应商：<strong>A药厂</strong> ｜ ¥15.50 ｜ 库存：充足 ｜ 效期：2026-12</p>
+      <p>供应商：<strong>A药厂</strong> ｜ ¥15.50 ｜ 库存：充足 ｜ 效期：2026-12 ｜ 星级：★★★★★</p>
       <button class="btn">换供应商</button>
     </div>
 
-    <div class="card" style="border-left: 4px solid red;">
+    <div class="sku-card card" data-exp="2026-10" data-lead="4" data-rate="3" style="border-left:4px solid red;">
       <p><strong>某某注射液（规格X）</strong> ｜ 数量：20 <span class="warning">⚠ 无合适供应商</span></p>
       <button class="btn">手动查找</button>
       <button class="btn">忽略</button>
     </div>
 
-    <div style="text-align:center; margin: 20px 0;">
+    <!-- 批量操作 -->
+    <div style="text-align:center; margin:20px 0;">
       <input type="checkbox" /> 全选
-      <button class="btn-addcart">加入购物车</button>
-      <button class="btn-createorder">生成订单</button>
+      <button class="btn btn-addcart">加入购物车</button>
+      <button class="btn btn-createorder">生成订单</button>
     </div>
 
     <div class="return-home">
       <a href="index.html" class="btn-secondary">返回首页</a>
     </div>
   </main>
-  <script src="js/common.js"></script>
-	
-	<!-- 绑定按钮事件：加入购物车 & 生成订单 -->
-<script>
-document.querySelector('.btn-addcart')?.addEventListener('click',() =>{
-  alert('已将选中 SKU 加入购物车！（示例逻辑）');
-  /* 实际项目：POST /api/cart 之后再跳 cart.html */
-});
-document.querySelector('.btn-createorder')?.addEventListener('click',() =>{
-  alert('已生成草稿订单！（示例逻辑）');
-  /* 实际项目：POST /api/orders 之后再跳 confirm-order.html */
-});
-</script>
 
+  <!-- ===== 公用脚本 ===== -->
+  <script src="js/common.js"></script>
+
+  <!-- ===== 本页脚本 ===== -->
+  <script>
+  /* 过滤按钮逻辑 */
+  document.getElementById('filterBtn').onclick = () => {
+    const exp  = document.getElementById('fExp').value;
+    const lead = document.getElementById('fLead').value;
+    const rate = document.getElementById('fRate').value;
+    document.querySelectorAll('.sku-card').forEach(card=>{
+      const ok = (!exp  || card.dataset.exp  >= exp) &&
+                 (!lead || Number(card.dataset.lead) <= lead) &&
+                 (!rate || Number(card.dataset.rate) >= rate);
+      card.style.display = ok ? '' : 'none';
+    });
+  };
+
+  /* 批量操作按钮示例 */
+  document.querySelector('.btn-addcart').addEventListener('click',()=>{
+    alert('已将选中 SKU 加入购物车！（示例逻辑）');
+    // TODO: fetch('/api/cart', {...}).then(()=>location.href='cart.html');
+  });
+  document.querySelector('.btn-createorder').addEventListener('click',()=>{
+    alert('已生成草稿订单！（示例逻辑）');
+    // TODO: fetch('/api/orders', {...}).then(()=>location.href='confirm-order.html');
+  });
+  </script>
 </body>
 </html>
